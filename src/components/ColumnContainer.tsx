@@ -29,6 +29,7 @@ const ColumnContainer = (props: Props) => {
       type: 'Column',
       column,
     },
+    disabled: editMode,
   });
 
   const style = {
