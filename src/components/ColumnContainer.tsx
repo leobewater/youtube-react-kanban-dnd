@@ -1,6 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable';
 import TrashIcon from '../icons/TrashIcon';
-import { Column, Id } from '../types';
+import { Column, Id, Task } from '../types';
 import { CSS } from '@dnd-kit/utilities';
 import { useState } from 'react';
 import PlusIcon from '../icons/PlusIcon';
@@ -10,10 +10,11 @@ interface Props {
   deleteColumn: (id: Id) => void;
   updateColumn: (id: Id, title: string) => void;
   createTask: (columnId: Id) => void;
+  tasks: Task[];
 }
 
 const ColumnContainer = (props: Props) => {
-  const { column, deleteColumn, updateColumn, createTask } = props;
+  const { column, deleteColumn, updateColumn, createTask, tasks } = props;
 
   const [editMode, setEditMode] = useState(false);
 
@@ -96,7 +97,11 @@ const ColumnContainer = (props: Props) => {
       </div>
 
       {/* Column task container */}
-      <div className="flex flex-grow">Content</div>
+      <div className="flex flex-grow flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto">
+        {tasks.map((task) => (
+          <div key={task.id}>{task.content}</div>
+        ))}
+      </div>
 
       {/* Column footer */}
       <button
