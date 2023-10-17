@@ -48,6 +48,7 @@ const KanbanBoard = () => {
                   column={col}
                   deleteColumn={deleteColumn}
                   updateColumn={updateColumn}
+                  createTask={createTask}
                 />
               ))}
             </SortableContext>
@@ -71,6 +72,7 @@ const KanbanBoard = () => {
                 column={activeColumn}
                 deleteColumn={deleteColumn}
                 updateColumn={updateColumn}
+                createTask={createTask}
               />
             )}
           </DragOverlay>,
@@ -79,6 +81,15 @@ const KanbanBoard = () => {
       </DndContext>
     </div>
   );
+
+  function createTask(columnId: Id) {
+    const newTask: Task = {
+      id: generateId(),
+      columnId,
+      content: `Task ${tasks.length + 1}`,
+    };
+    setTasks([...tasks, newTask]);
+  }
 
   function createNewColumn() {
     const columnToAdd: Column = {

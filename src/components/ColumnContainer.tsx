@@ -3,15 +3,17 @@ import TrashIcon from '../icons/TrashIcon';
 import { Column, Id } from '../types';
 import { CSS } from '@dnd-kit/utilities';
 import { useState } from 'react';
+import PlusIcon from '../icons/PlusIcon';
 
 interface Props {
   column: Column;
   deleteColumn: (id: Id) => void;
   updateColumn: (id: Id, title: string) => void;
+  createTask: (columnId: Id) => void;
 }
 
 const ColumnContainer = (props: Props) => {
-  const { column, deleteColumn, updateColumn } = props;
+  const { column, deleteColumn, updateColumn, createTask } = props;
 
   const [editMode, setEditMode] = useState(false);
 
@@ -97,7 +99,15 @@ const ColumnContainer = (props: Props) => {
       <div className="flex flex-grow">Content</div>
 
       {/* Column footer */}
-      <div>Footer</div>
+      <button
+        className="flex gap-2 items-center border-columnBackgroundColor border-2 rounded-md p-4 border-x-columnBackgroundColor hover:bg-mainBackgroundColor hover:text-rose-500 active:bg-black"
+        onClick={() => {
+          createTask(column.id);
+        }}
+      >
+        <PlusIcon />
+        Add Task
+      </button>
     </div>
   );
 };
