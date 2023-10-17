@@ -5,9 +5,10 @@ import { Id, Task } from '../types';
 interface Props {
   task: Task;
   deleteTask: (id: Id) => void;
+  updateTask: (id: Id, content: string) => void;
 }
 
-const TaskCard = ({ task, deleteTask }: Props) => {
+const TaskCard = ({ task, deleteTask, updateTask }: Props) => {
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
@@ -17,13 +18,27 @@ const TaskCard = ({ task, deleteTask }: Props) => {
   };
 
   if (editMode) {
-    return <>Edit mode</>;
+    return (
+      <div className="flex bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab relative">
+        <textarea
+          className="h-[90%] w-full resize-none border-none rounded bg-transparent text-white focus:outline-none"
+          value={task.content}
+          autoFocus
+          placeholder="Task content here"
+          onBlur={toggleEditMode}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && e.shiftKey) toggleEditMode();
+          }}
+          onChange={(e) => updateTask(task.id, e.target.value)}
+        ></textarea>
+      </div>
+    );
   }
-    
+
   return (
     <div
       onClick={toggleEditMode}
-      className="flex bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab relative"
+      className="flex bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab relative task"
       onMouseEnter={() => {
         setMouseIsOver(true);
       }}
@@ -31,7 +46,10 @@ const TaskCard = ({ task, deleteTask }: Props) => {
         setMouseIsOver(false);
       }}
     >
-      {task.content}
+      <p className="my-auto h-[90%] w-full overflow-y-auto overflow-x-auto whitespace-pre-wrap">
+        {task.content}
+      </p>
+
       {mouseIsOver && (
         <button
           onClick={() => {
