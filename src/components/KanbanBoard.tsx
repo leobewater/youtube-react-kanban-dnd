@@ -1,25 +1,29 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import PlusIcon from '../icons/PlusIcon';
 import { Column, Id } from '../types';
 import ColumnContainer from './ColumnContainer';
 import { DndContext } from '@dnd-kit/core';
+import { SortableContext } from '@dnd-kit/sortable';
 
 const KanbanBoard = () => {
   const [columns, setColumns] = useState<Column[]>([]);
-  console.log(columns);
+  // re-calculate columns id when add/remove columns
+  const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
   return (
     <div className="m-auto flex min-h-screen w-full items-center overflow-x-auto overflow-y-hidden px-[40px]">
       <DndContext>
         <div className="m-auto flex gap-4">
           <div className="flex gap-4">
-            {columns.map((col) => (
-              <ColumnContainer
-                key={col.id}
-                column={col}
-                deleteColumn={deleteColumn}
-              />
-            ))}
+            <SortableContext items={columnsId}>
+              {columns.map((col) => (
+                <ColumnContainer
+                  key={col.id}
+                  column={col}
+                  deleteColumn={deleteColumn}
+                />
+              ))}
+            </SortableContext>
           </div>
 
           <button
