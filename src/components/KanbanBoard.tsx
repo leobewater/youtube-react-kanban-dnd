@@ -13,7 +13,7 @@ const KanbanBoard = () => {
         <div className="flex gap-4">
           {columns.map((col) => (
             <div key={col.id}>
-              <ColumnContainer column={col} />
+              <ColumnContainer column={col} deleteColumn={deleteColumn} />
             </div>
           ))}
         </div>
@@ -40,10 +40,15 @@ const KanbanBoard = () => {
     setColumns([...columns, columnToAdd]);
   }
 
-  function generateId() {
-    // Generate a random number between 0 and 10000
-    return Math.floor(Math.random() * 10001);
+  function deleteColumn(id: Id) {
+    const filteredColumns = columns.filter((col) => col.id !== id);
+    setColumns(filteredColumns);
   }
 };
+
+function generateId() {
+  // Generate a random number between 0 and 10000
+  return Math.floor(Math.random() * 10001);
+}
 
 export default KanbanBoard;
