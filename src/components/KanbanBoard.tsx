@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import PlusIcon from '../icons/PlusIcon';
-import { Column, Id } from '../types';
+import { Column, Id, Task } from '../types';
 import ColumnContainer from './ColumnContainer';
 import {
   DndContext,
@@ -16,6 +16,9 @@ import { createPortal } from 'react-dom';
 
 const KanbanBoard = () => {
   const [columns, setColumns] = useState<Column[]>([]);
+
+  const [tasks, setTasks] = useState<Task[]>([]);
+
   // re-calculate columns id when add/remove columns
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
