@@ -9,8 +9,20 @@ interface Props {
 
 const TaskCard = ({ task, deleteTask }: Props) => {
   const [mouseIsOver, setMouseIsOver] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+
+  const toggleEditMode = () => {
+    setEditMode((prev) => !prev);
+    setMouseIsOver(false);
+  };
+
+  if (editMode) {
+    return <>Edit mode</>;
+  }
+    
   return (
     <div
+      onClick={toggleEditMode}
       className="flex bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab relative"
       onMouseEnter={() => {
         setMouseIsOver(true);
